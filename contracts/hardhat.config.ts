@@ -1,8 +1,12 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import * as dotenv from "dotenv";
+import * as path from "path";
 
-dotenv.config({ path: "../.env" });
+const rootEnv = path.resolve(__dirname, "..", ".env");
+const rootEnvLocal = path.resolve(__dirname, "..", ".env.local");
+dotenv.config({ path: rootEnv });
+dotenv.config({ path: rootEnvLocal });
 
 const helaRpc = process.env.HELA_TESTNET_RPC_URL || "https://testnet-rpc.helachain.com";
 const deployKey = process.env.DEPLOYER_PRIVATE_KEY;

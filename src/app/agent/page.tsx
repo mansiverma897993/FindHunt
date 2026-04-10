@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { parseEther, formatEther, zeroAddress } from "viem";
 import { useAccount, useReadContract, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { Sparkles } from "lucide-react";
-import { DeployBanner } from "@/components/deploy-banner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -90,8 +89,6 @@ export default function AgentPage() {
           </p>
         </div>
       </motion.div>
-
-      <DeployBanner />
 
       <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
         <Card className="min-h-[420px] border-emerald-200/50">

@@ -13,7 +13,6 @@ import {
   Tv,
   Zap,
 } from "lucide-react";
-import { DeployBanner } from "@/components/deploy-banner";
 import { FindHuntLogo } from "@/components/brand/findhunt-logo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -260,8 +259,6 @@ export default function SubscriptionsPage() {
           </div>
         </div>
       </motion.div>
-
-      <DeployBanner />
 
       <Tabs defaultValue="templates" className="w-full">
         <TabsList className="flex w-full flex-wrap gap-1">

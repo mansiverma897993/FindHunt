@@ -7,7 +7,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "contracts:compile": "cd contracts && npx hardhat compile",
+    "contracts:test": "cd contracts && npx hardhat test",
+    "deploy:hela": "cd contracts && npx hardhat run scripts/deploy.ts --network helaTestnet"
   },
   "dependencies": {
     "@prisma/client": "^7.7.0",

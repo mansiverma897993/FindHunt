@@ -32,6 +32,11 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# Hela deploy outputs (generated; copy vars into .env.local)
+deployed-addresses.json
+hela-contracts.env
 
 # vercel
 .vercel

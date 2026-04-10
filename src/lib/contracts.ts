@@ -28,7 +28,3 @@ export const addresses = {
   strategy: addr("NEXT_PUBLIC_STRATEGY_EXECUTOR"),
   lpPool: addr("NEXT_PUBLIC_MOCK_LP_POOL"),
 };
-
-export function hasDeployedContracts(): boolean {
-  return Boolean(addresses.vault);
-}

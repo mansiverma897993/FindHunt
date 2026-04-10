@@ -3,7 +3,14 @@ import * as fs from "fs";
 import * as path from "path";
 
 async function main() {
-  const [deployer] = await ethers.getSigners();
+  const signers = await ethers.getSigners();
+  const deployer = signers[0];
+  if (!deployer) {
+    console.error(
+      "\n[FindHunt] No deployer account. Set DEPLOYER_PRIVATE_KEY in .env.local (repo root) with 0x… and fund the wallet on Hela Testnet.\n"
+    );
+    process.exit(1);
+  }
   console.log("Deployer:", deployer.address);
 
   const TreasurerVault = await ethers.getContractFactory("TreasurerVault");
@@ -54,6 +61,35 @@ async function main() {
   const envPath = path.join(root, "deployed-addresses.json");
   fs.writeFileSync(envPath, JSON.stringify(out, null, 2));
   console.log("Wrote", envPath);
+
+  const explorer = "https://testnet-blockexplorer.helachain.com";
+  const lines = [
+    `# FindHunt — paste into .env.local (project root)`,
+    `NEXT_PUBLIC_TREASURER_VAULT=${vaultAddr}`,
+    `NEXT_PUBLIC_STRATEGY_EXECUTOR=${execAddr}`,
+    `NEXT_PUBLIC_BUDGET_CONTROLLER=${budgetAddr}`,
+    `NEXT_PUBLIC_SUBSCRIPTION_MANAGER=${subsAddr}`,
+    `NEXT_PUBLIC_MOCK_LP_POOL=${lpAddr}`,
+    ``,
+    `# Hela Testnet`,
+    `NEXT_PUBLIC_HELA_RPC_URL=${process.env.HELA_TESTNET_RPC_URL || "https://testnet-rpc.helachain.com"}`,
+  ];
+  const envSnippet = path.join(root, "hela-contracts.env");
+  fs.writeFileSync(envSnippet, lines.join("\n"));
+  console.log("Wrote", envSnippet);
+
+  console.log("\n=== Hela Testnet — block explorer links ===\n");
+  const links: [string, string][] = [
+    ["TreasurerVault", vaultAddr],
+    ["StrategyExecutor", execAddr],
+    ["BudgetController", budgetAddr],
+    ["SubscriptionManager", subsAddr],
+    ["MockLPPool", lpAddr],
+  ];
+  for (const [name, addr] of links) {
+    console.log(`${name}: ${explorer}/address/${addr}`);
+  }
+  console.log("\nRestart Next.js after updating .env.local so the app picks up contract addresses.\n");
 }
 
 main().catch((e) => {

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { formatEther, parseEther, zeroAddress } from "viem";
 import { useAccount, useReadContract, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { DeployBanner } from "@/components/deploy-banner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -74,8 +73,6 @@ export default function BudgetPage() {
           FindHunt — on-chain daily limit and spend tracker; pairs with trading desk risk caps.
         </p>
       </motion.div>
-
-      <DeployBanner />
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>

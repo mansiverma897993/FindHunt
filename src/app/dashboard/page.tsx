@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { formatEther, zeroAddress } from "viem";
 import { useAccount, useBalance, useReadContract } from "wagmi";
 import { Bell, PiggyBank, TrendingUp, Wallet } from "lucide-react";
-import { DeployBanner } from "@/components/deploy-banner";
 import { PortfolioChart } from "@/components/dashboard/portfolio-chart";
 import { TradingCandleChart } from "@/components/dashboard/trading-candle-chart";
 import { TradingVolumeChart } from "@/components/dashboard/trading-volume-chart";
@@ -90,8 +89,6 @@ export default function DashboardPage() {
           </Button>
         </div>
       </motion.div>
-
-      <DeployBanner />
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <StatCard

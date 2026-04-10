@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Activity, TrendingDown, TrendingUp } from "lucide-react";
-import { DeployBanner } from "@/components/deploy-banner";
 import { FindHuntLogo } from "@/components/brand/findhunt-logo";
 import { TradingCandleChart } from "@/components/dashboard/trading-candle-chart";
 import { TradingVolumeChart } from "@/components/dashboard/trading-volume-chart";
@@ -35,8 +34,6 @@ export default function TradingPage() {
           Demo data · Hela wallet
         </Badge>
       </motion.div>
-
-      <DeployBanner />
 
       <div className="grid gap-4 sm:grid-cols-3">
         <Card>

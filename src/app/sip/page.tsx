@@ -12,7 +12,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { DeployBanner } from "@/components/deploy-banner";
 import { FindHuntLogo } from "@/components/brand/findhunt-logo";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -70,8 +69,6 @@ export default function SipPage() {
           DCA · auto-schedule ready
         </Badge>
       </motion.div>
-
-      <DeployBanner />
 
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-1">

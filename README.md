@@ -1,36 +1,178 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FindHunt
 
-## Getting Started
+FindHunt is a **demo-friendly** crypto personal-finance dashboard: **trading-style charts**, **crypto SIP** projections, **bills & subscriptions** templates (streaming, SaaS, GPT, rent, school fees), and **Hela Testnet** wallet flows (vault, budget, subscriptions, mock LP). The UI runs fully **without** contracts; on-chain features activate after you deploy and set `NEXT_PUBLIC_*` addresses.
 
-First, run the development server:
+---
+
+## Requirements
+
+- **Node.js** 20+ (LTS recommended)
+- **npm** 10+
+- A wallet with **Hela Testnet** HLUSD for gas (from the official faucet)
+- Optional: **PostgreSQL** if you use Prisma-backed APIs later
+
+---
+
+## Quick start (local UI demo)
+
+```bash
+git clone <your-repo-url> findhunt
+cd findhunt
+npm install
+cd contracts && npm install && cd ..
+npm run dev
+```
+
+Open **http://localhost:3000**.
+
+Charts, SIP calculator, and bill templates work without contracts. Wallet connect targets **Hela Testnet** (chain ID `666888`).
+
+---
+
+## Hela Testnet reference
+
+| Item | Value |
+|------|--------|
+| **Chain ID** | `666888` |
+| **RPC** | `https://testnet-rpc.helachain.com` |
+| **Explorer** | https://testnet-blockexplorer.helachain.com |
+| **Faucet** | https://testnet-faucet.helachain.com/ |
+
+Add the network in MetaMask (or use RainbowKit’s network switcher) using the above RPC and chain ID.
+
+---
+
+## Deploy smart contracts to Hela Testnet
+
+Contracts live in `contracts/` (Hardhat + Solidity 0.8.20).
+
+### 1. Fund a deployer wallet
+
+Create or use an account, export its **private key** (with `0x` prefix), and send it **testnet HLUSD** from the faucet.
+
+### 2. Configure environment (project root)
+
+Create **`.env.local`** in the **repository root** (same folder as `package.json`):
+
+```env
+# Required for deploy (never commit this file)
+DEPLOYER_PRIVATE_KEY=0xYOUR_PRIVATE_KEY_HERE
+
+# Optional — defaults to public RPC if omitted
+HELA_TESTNET_RPC_URL=https://testnet-rpc.helachain.com
+```
+
+Hardhat loads `.env` and **`.env.local`** from the project root.
+
+### 3. Compile
+
+```bash
+npm run contracts:compile
+```
+
+### 4. Deploy
+
+```bash
+npm run deploy:hela
+```
+
+On success you get:
+
+- **`deployed-addresses.json`** — JSON with all addresses  
+- **`hela-contracts.env`** — ready-to-paste `NEXT_PUBLIC_*` lines for Next.js  
+
+The script also prints **direct block explorer links** for each contract, for example:
+
+`https://testnet-blockexplorer.helachain.com/address/<CONTRACT_ADDRESS>`
+
+### 5. Point the frontend at your deployment
+
+Append the contents of **`hela-contracts.env`** to **`.env.local`**, then add:
+
+```env
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_reown_walletconnect_project_id
+```
+
+Get a project ID from [Reown Cloud](https://cloud.reown.com) (reduces WalletConnect console warnings).
+
+Restart the dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment variables (summary)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | When |
+|----------|------|
+| `DEPLOYER_PRIVATE_KEY` | Deploy only (root `.env.local`) |
+| `HELA_TESTNET_RPC_URL` | Optional custom RPC |
+| `NEXT_PUBLIC_TREASURER_VAULT` | After deploy |
+| `NEXT_PUBLIC_STRATEGY_EXECUTOR` | After deploy |
+| `NEXT_PUBLIC_BUDGET_CONTROLLER` | After deploy |
+| `NEXT_PUBLIC_SUBSCRIPTION_MANAGER` | After deploy |
+| `NEXT_PUBLIC_MOCK_LP_POOL` | After deploy |
+| `NEXT_PUBLIC_HELA_RPC_URL` | Optional; wallet RPC |
+| `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | Recommended for WalletConnect |
+| `OPENAI_API_KEY` | Optional; AI agent uses heuristics if unset |
+| `DATABASE_URL` | Optional; Prisma / PostgreSQL |
 
-## Learn More
+See **`.env.example`** in the repo root for a template.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Production build
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run build
+npm start
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploy the **website** (Vercel / Netlify / etc.)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Push the repo to GitHub/GitLab.
+2. Create a project in Vercel (or similar), root directory = repo root.
+3. Set the same **`NEXT_PUBLIC_*`** and **`NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`** in the host’s environment UI.
+4. Build command: `npm run build`, output: Next.js default.
+
+Your **public app URL** will be whatever the host assigns (e.g. `https://findhunt.vercel.app`). **Contract “links”** are always on the Hela explorer:  
+`https://testnet-blockexplorer.helachain.com/address/<address>`.
+
+---
+
+## Scripts
+
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Next.js dev server |
+| `npm run build` | Production build |
+| `npm run contracts:compile` | Hardhat compile |
+| `npm run contracts:test` | Hardhat tests |
+| `npm run deploy:hela` | Deploy all contracts to Hela Testnet |
+
+---
+
+## Project layout
+
+- `src/app/` — Next.js App Router pages (dashboard, trading, SIP, bills, etc.)
+- `src/components/` — UI, layout, charts, FindHunt logo
+- `src/lib/` — Wagmi chain config, ABIs, helpers
+- `contracts/` — Hardhat project and Solidity sources
+- `prisma/` — Optional PostgreSQL schema
+
+---
+
+## Security
+
+- Never commit **private keys** or **`.env.local`**.
+- `deployed-addresses.json` and `hela-contracts.env` are gitignored by default; they only contain **public** contract addresses.
+
+---
+
+## License
+
+Private / your choice — set `license` in `package.json` if you publish.
