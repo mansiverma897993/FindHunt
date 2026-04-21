@@ -1,6 +1,6 @@
 # FindHunt
 
-FindHunt is a **demo-friendly** crypto personal-finance dashboard: **trading-style charts**, **crypto SIP** projections, **bills & subscriptions** templates (streaming, SaaS, GPT, rent, school fees), and **Hela Testnet** wallet flows (vault, budget, subscriptions, mock LP). The UI runs fully **without** contracts; on-chain features activate after you deploy and set `NEXT_PUBLIC_*` addresses.
+FindHunt is a demo-friendly crypto personal-finance dashboard: **trading-style charts**, **crypto SIP** projections, **bills & subscriptions** templates (streaming, SaaS, GPT, rent, school fees), and **Hela Testnet** wallet flows (vault, budget, subscriptions, mock LP). The UI runs fully **without** contracts; on-chain features activate after you deploy and set `NEXT_PUBLIC_*` addresses.
 
 ---
 
