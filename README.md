@@ -171,8 +171,3 @@ Your **public app URL** will be whatever the host assigns (e.g. `https://findhun
 - Never commit **private keys** or **`.env.local`**.
 - `deployed-addresses.json` and `hela-contracts.env` are gitignored by default; they only contain **public** contract addresses.
 
----
-
-## License
-
-Private / your choice — set `license` in `package.json` if you publish.
