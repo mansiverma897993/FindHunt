@@ -7,7 +7,6 @@ FindHunt is a demo-friendly crypto personal-finance dashboard: **trading-style c
 ## Requirements
 
 - **Node.js** 20+ (LTS recommended)
-- **npm** 10+
 - A wallet with **Hela Testnet** HLUSD for gas (from the official faucet)
 - Optional: **PostgreSQL** if you use Prisma-backed APIs later
 
